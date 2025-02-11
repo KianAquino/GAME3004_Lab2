@@ -10,15 +10,29 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] GameObject _mazeTile;
     [SerializeField] GameObject _endTile;
     [SerializeField] GameObject _scoreGiver;
+    [SerializeField] GameObject _player;
 
     private Vector2 _tileSize = new Vector2(16, 16);
+    private float _lastGenerated;
 
     private void Start()
     {
         GenerateMap();
     }
 
-    private void GenerateMap()
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            if (Time.time > _lastGenerated + 1f)
+            {
+                _lastGenerated = Time.time;
+                GenerateMap();
+            }
+        }
+    }
+
+    public void GenerateMap()
     {
         if (GameObject.Find("Generated Maze"))
             Destroy(GameObject.Find("Generated Maze"));
@@ -36,7 +50,14 @@ public class MapGenerator : MonoBehaviour
 
                 // Start Tile
                 if (row == 0 && col == 0)
+                {
                     tile = Instantiate(_startTile, tilePosition, Quaternion.identity, map.transform);
+
+                    if (GameObject.FindWithTag("Player"))
+                        Destroy(GameObject.FindWithTag("Player"));
+
+                    Instantiate(_player);
+                }
                 // End Tile
                 else if (row == _size.x - 1 && col == _size.y - 1)
                     tile = Instantiate(_endTile, tilePosition, Quaternion.identity, map.transform);
