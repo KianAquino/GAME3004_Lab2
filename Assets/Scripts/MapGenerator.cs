@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -11,6 +11,9 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] GameObject _endTile;
     [SerializeField] GameObject _scoreGiver;
     [SerializeField] GameObject _player;
+    [SerializeField] GameObject _robot;
+    [Header("Navigation")]
+    [SerializeField] NavMeshSurface _navMeshSurface;
 
     private Vector2 _tileSize = new Vector2(16, 16);
     private float _lastGenerated;
@@ -80,6 +83,10 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
+
+        // Generate Surface
+        _navMeshSurface.BuildNavMesh();
+        Debug.Log("NavMeshSurface Baked.");
 
         Debug.Log("<color=green> Generated Maze Successfuly.</color>");
     }
