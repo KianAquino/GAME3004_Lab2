@@ -56,6 +56,8 @@ public class MapGenerator : MonoBehaviour
                 {
                     tile = Instantiate(_startTile, tilePosition, Quaternion.identity, map.transform);
 
+                    // Spawn Player
+
                     if (GameObject.FindWithTag("Player"))
                         Destroy(GameObject.FindWithTag("Player"));
 
@@ -63,7 +65,16 @@ public class MapGenerator : MonoBehaviour
                 }
                 // End Tile
                 else if (row == _size.x - 1 && col == _size.y - 1)
+                {
                     tile = Instantiate(_endTile, tilePosition, Quaternion.identity, map.transform);
+
+                    // Spawn Robot
+
+                    if (GameObject.FindWithTag("Robot"))
+                        Destroy(GameObject.FindWithTag("Robot"));
+
+                    Instantiate(_robot, tile.transform.Find("Spawn Location").position, Quaternion.identity);
+                }
                 // Regular Maze Tile
                 else
                 {
