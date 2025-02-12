@@ -38,7 +38,14 @@ public class MapGenerator : MonoBehaviour
     public void GenerateMap()
     {
         if (GameObject.Find("Generated Maze"))
+        {
             Destroy(GameObject.Find("Generated Maze"));
+            _navMeshSurface.RemoveData();
+            if (GameObject.FindWithTag("Player"))
+                Destroy(GameObject.FindWithTag("Player"));
+            if (GameObject.FindWithTag("Robot"))
+                Destroy(GameObject.FindWithTag("Robot"));
+        }
 
         GameObject map = new GameObject("Generated Maze");
 
@@ -57,10 +64,6 @@ public class MapGenerator : MonoBehaviour
                     tile = Instantiate(_startTile, tilePosition, Quaternion.identity, map.transform);
 
                     // Spawn Player
-
-                    if (GameObject.FindWithTag("Player"))
-                        Destroy(GameObject.FindWithTag("Player"));
-
                     Instantiate(_player);
                 }
                 // End Tile
@@ -69,10 +72,6 @@ public class MapGenerator : MonoBehaviour
                     tile = Instantiate(_endTile, tilePosition, Quaternion.identity, map.transform);
 
                     // Spawn Robot
-
-                    if (GameObject.FindWithTag("Robot"))
-                        Destroy(GameObject.FindWithTag("Robot"));
-
                     Instantiate(_robot, tile.transform.Find("Spawn Location").position, Quaternion.identity);
                 }
                 // Regular Maze Tile

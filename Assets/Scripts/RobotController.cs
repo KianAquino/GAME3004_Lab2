@@ -7,13 +7,13 @@ public class RobotController : MonoBehaviour
 
     private Transform _player;
 
-    private void Start()
-    {
-        _player = GameObject.FindWithTag("Player").transform;
-    }
-
     private void Update()
     {
+        _player = GameObject.FindWithTag("Player").transform;
+
+        if (_player == null)
+            return;
+
         _agent.SetDestination(_player.position);
     }
 }
